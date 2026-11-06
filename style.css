@@ -1,28 +1,44 @@
+/* Palette matches idiomvn.com. Theme: follows the system unless
+   <html data-theme="light|dark"> is set by the toggle. */
 :root {
-  --bg: #fbfaf6;
+  color-scheme: light;
+  --bg: #fdfcfa;
   --surface: #ffffff;
-  --text: #1a1814;
-  --muted: #6b665d;
-  --line: #e8e4da;
-  --accent: #2f6b4f;
-  --accent-soft: #e6efe9;
-  --shadow: 0 1px 2px rgba(26, 24, 20, .04), 0 8px 24px rgba(26, 24, 20, .06);
+  --text: #16130f;
+  --muted: #6b655d;
+  --line: #e6e2da;
+  --accent: #2d5a4a;
+  --accent-soft: #e5eeea;
+  --shadow: 0 1px 2px rgba(22, 19, 15, .04), 0 8px 24px rgba(22, 19, 15, .06);
   --radius: 18px;
   --sans: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
   --serif: "Newsreader", Georgia, serif;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #12140f;
-    --surface: #1a1d17;
-    --text: #ece9e1;
-    --muted: #a19c90;
-    --line: #2a2e26;
-    --accent: #7cc19c;
-    --accent-soft: #1f2b23;
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --bg: #0f1211;
+    --surface: #161a18;
+    --text: #efede7;
+    --muted: #98928a;
+    --line: #262c28;
+    --accent: #79b49b;
+    --accent-soft: #1b2621;
     --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
   }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f1211;
+  --surface: #161a18;
+  --text: #efede7;
+  --muted: #98928a;
+  --line: #262c28;
+  --accent: #79b49b;
+  --accent-soft: #1b2621;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
 }
 
 * { box-sizing: border-box; }
@@ -54,6 +70,23 @@ em { font-family: var(--serif); font-style: italic; font-size: 1.08em; color: va
 .nav nav { display: flex; gap: 24px; }
 .nav nav a { color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 500; transition: color .2s; }
 .nav nav a:hover { color: var(--text); }
+.nav-right { display: flex; align-items: center; gap: 24px; }
+
+/* Theme toggle (same pattern as idiomvn.com) */
+.theme-toggle {
+  display: inline-flex; gap: 2px; padding: 2px;
+  border: 1px solid var(--line); border-radius: 999px;
+}
+.theme-toggle button {
+  display: grid; place-items: center;
+  width: 32px; height: 32px; padding: 0;
+  border: 0; border-radius: 999px; background: transparent;
+  color: var(--muted); cursor: pointer; transition: color .2s, background .2s;
+}
+.theme-toggle button:hover { color: var(--text); }
+.theme-toggle button[aria-pressed="true"] { background: var(--line); color: var(--text); }
+.theme-toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.theme-toggle svg { width: 18px; height: 18px; }
 
 /* Hero */
 .hero { padding: 96px 0 72px; }
@@ -96,6 +129,8 @@ h2 { margin: 0; font-size: clamp(28px, 4vw, 36px); letter-spacing: -.025em; }
 }
 .card:hover { transform: translateY(-4px); box-shadow: 0 2px 4px rgba(26,24,20,.05), 0 18px 40px rgba(26,24,20,.10); }
 .shot { display: block; overflow: hidden; border-bottom: 1px solid var(--line); background: #fbfaf6; }
+:root[data-theme="dark"] .shot img { filter: brightness(.85); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) .shot img { filter: brightness(.85); } }
 .shot img { aspect-ratio: 1200 / 630; object-fit: cover; transition: transform .5s ease; }
 .card:hover .shot img { transform: scale(1.03); }
 .card-body { display: flex; flex-direction: column; gap: 14px; padding: 24px 26px 26px; flex: 1; }
@@ -142,6 +177,15 @@ h3 { margin: 0; font-size: 22px; letter-spacing: -.02em; }
   .grid { grid-template-columns: 1fr; }
   .hero { padding: 56px 0 48px; }
   .nav nav { gap: 16px; }
+  .nav { gap: 16px; }
+  .nav-right { gap: 14px; }
+  .nav nav a { font-size: 14px; }
+}
+
+@media (max-width: 400px) {
+  .nav nav { gap: 12px; }
+  .nav-right { gap: 10px; }
+  .theme-toggle button { width: 28px; height: 28px; }
   .section { padding: 48px 0; }
 }
 
